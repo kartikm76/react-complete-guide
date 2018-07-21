@@ -1,9 +1,15 @@
 import React from 'react';
-import './Person.css';
+import cssClasses from './Person.css';
+
+// cssClasses was set by making changes as:
+// 1. npm run eject
+// 2. change the css loader config in webpack.config.dev.js
+// 3. change the css loader config in webpack.config.prod.js
+// For example instead of ".Person" in css file, it could be still named as ".App"
 
 const person = (props) => {
     return (
-        <div className="Person">
+        <div className={cssClasses.Person}>
             <p onClick={props.click}>I am {props.name} and I am {props.age} old person</p>
             <p>{props.children}</p>
             <input type="text" onChange={props.changed} defaultValue={props.name}/>

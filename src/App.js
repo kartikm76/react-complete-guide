@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
+import cssClasses from './App.css';
 import Person from './Person/Person';
+
+// cssClasses was set by making changes as:
+// 1. npm run eject
+// 2. change the css loader config in webpack.config.dev.js
+// 3. change the css loader config in webpack.config.prod.js
+// For example instead of ".App" in css file, it could be still named as ".Person"
 
 class App extends Component {
   state = {
@@ -53,16 +59,9 @@ class App extends Component {
   }
 
   render() {
-      const style={
-        backgroundColor: 'green',
-        color: 'white',
-        font: 'inherit',
-        border: '1px solid blue',
-        padding: '8px',
-        cursor: 'pointer'        
-      };
-
       let persons = null;
+      let buttonClass = '';
+
       if (this.state.showPersons) {
         persons = (
             <div>
@@ -78,26 +77,17 @@ class App extends Component {
                 )})}
             </div>
         );
-        style.backgroundColor = 'red';        
-      }
-
-      const styleClass = [];
-      if (this.state.persons.length <= 2) {
-        styleClass.push('red');
-      }
-
-      if (this.state.persons.length <= 1) {
-        styleClass.push('bold');
+        buttonClass = cssClasses.red;
       }
 
       return (
-        <div className="App">
+        <div className={cssClasses.App}>
           <h1>Hi </h1>
-          <p className={styleClass.join(' ')}> This is a react app </p>
-          <button 
-            style={style} 
-            onClick={this.togglePersonHandler}>Toggle Person</button>
-            {persons}            
+          <p> This is a react app </p>
+          <button className={buttonClass}
+            onClick={this.togglePersonHandler}>Toggle Person
+          </button>
+          {persons}            
         </div>
     );
     //return React.createElement('div', null, 'h1', 'Hi, I am a react app');
