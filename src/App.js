@@ -54,11 +54,12 @@ class App extends Component {
 
   render() {
       const style={
-        backgroundColor: 'white',
+        backgroundColor: 'green',
+        color: 'white',
         font: 'inherit',
         border: '1px solid blue',
         padding: '8px',
-        cursor: 'pointer'
+        cursor: 'pointer'        
       };
 
       let persons = null;
@@ -77,11 +78,22 @@ class App extends Component {
                 )})}
             </div>
         );
+        style.backgroundColor = 'red';        
+      }
+
+      const styleClass = [];
+      if (this.state.persons.length <= 2) {
+        styleClass.push('red');
+      }
+
+      if (this.state.persons.length <= 1) {
+        styleClass.push('bold');
       }
 
       return (
         <div className="App">
           <h1>Hi </h1>
+          <p className={styleClass.join(' ')}> This is a react app </p>
           <button 
             style={style} 
             onClick={this.togglePersonHandler}>Toggle Person</button>
@@ -92,4 +104,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App; // Higher Order Component
