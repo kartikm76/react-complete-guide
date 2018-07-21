@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import cssClasses from './App.css';
 import Person from './Person/Person';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 // cssClasses was set by making changes as:
 // 1. npm run eject
@@ -67,13 +68,15 @@ class App extends Component {
             <div>
               {this.state.persons.map((person, index) => {
                 return (
+                  <ErrorBoundary>
+                    key   = {person.id}
                     <Person
                       click = {() => this.deletePersonHandler(index)}
                       name  = {person.name}
-                      age   = {person.age}
-                      key   = {person.id}
+                      age   = {person.age}                      
                       changed = {(event) => this.nameChangedHandler(event, person.id)}
-                    />                
+                    />
+                    </ErrorBoundary>
                 )})}
             </div>
         );
