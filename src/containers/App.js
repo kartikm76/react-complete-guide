@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import cssClasses from './App.css';
-import Person from '../components/Persons/Person/Person';
-import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import Cockpit from '../components/Cockpit/Cockpit';
+import Persons from '../components/Persons/Persons';
 
 // cssClasses was set by making changes as:
 // 1. npm run eject
@@ -61,34 +61,25 @@ class App extends Component {
 
   render() {
       let persons = null;
-      let buttonClass = '';
+  
 
       if (this.state.showPersons) {
         persons = (
-            <div>
-              {this.state.persons.map((person, index) => {
-                return (
-                  <ErrorBoundary key = {person.id}>
-                    <Person
-                      click   = {() => this.deletePersonHandler(index)}
-                      name    = {person.name}
-                      age     = {person.age}                      
-                      changed = {(event) => this.nameChangedHandler(event, person.id)}
-                    />
-                  </ErrorBoundary>
-                )})}
-            </div>
+              <Persons 
+                persons = {this.state.persons}
+                clicked = {this.deletePersonHandler}
+                changed = {this.nameChangedHandler}
+              />
         );
-        buttonClass = cssClasses.red;
       }
 
       return (
         <div className={cssClasses.App}>
-          <h1>Hi </h1>
-          <p> This is a react app </p>
-          <button className={buttonClass}
-            onClick={this.togglePersonHandler}>Toggle Person
-          </button>
+          <Cockpit
+            showPersons = {this.state.showPersons}
+            persons = {this.state.persons}
+            clicked = {this.togglePersonHandler}
+          />
           {persons}            
         </div>
     );

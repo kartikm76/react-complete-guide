@@ -16,7 +16,7 @@ const person = (props) => {
 
     return (
         <div className={cssClasses.Person}>
-            <p onClick={props.click}>I am {props.name} and I am {props.age} old person</p>
+            <p onClick={props.clicked}>I am {props.name} and I am {props.age} old person</p>
             <p>{props.children}</p>
             <input type="text" onChange={props.changed} defaultValue={props.name}/>
         </div>
