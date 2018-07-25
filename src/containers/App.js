@@ -10,6 +10,20 @@ import Persons from '../components/Persons/Persons';
 // For example instead of ".App" in css file, it could be still named as ".Person"
 
 class App extends Component {
+  constructor (props) {
+    super(props);
+    console.log('App.js insdie constructor', props)
+    // this.state can also be initialized here
+  }
+
+  componentWillMount() {
+    console.log('App.js insdie componentWillMount')
+  }
+
+  componentDidMount() {
+    console.log('App.js insdie componentDidMount')
+  }
+
   state = {
     persons: [
       { id: 1, name: "kkm", age: 45 },
@@ -60,6 +74,7 @@ class App extends Component {
   }
 
   render() {
+      console.log("App.js inside render");
       let persons = null;
   
 
