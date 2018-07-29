@@ -28,6 +28,7 @@ const persons = (props) => {
                 name    = {person.name}
                 age     = {person.age}
                 key     = {person.id}
+                position = {index} 
                 changed = {( event ) => props.changed( event, person.id )}
             />
         })

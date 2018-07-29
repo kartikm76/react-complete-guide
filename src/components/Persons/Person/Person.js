@@ -15,19 +15,32 @@ class Person extends Component {
         super(props);
         console.log('[Person.js] inside constructor', props);
     }
-//const person = (props) => {
-  render () {
 
-    return (
-        <Aux>
-        { /* <div className={cssClasses.Person}> */ }
-            <p onClick={this.props.clicked}>I am {this.props.name} and I am {this.props.age} old person</p>
-            <p>{this.props.children}</p>
-            <input type="text" onChange={this.props.changed} defaultValue={this.props.name}/>
-        { /* </div> */ }
-        </Aux>
-    )
-}
+    componentDidMount() {
+        if (this.props.position === 0) {
+            this.inputElement.focus();
+        }
+    }
+
+//const person = (props) => {
+    render () {
+        return (
+            <Aux>
+            { /* <div className={cssClasses.Person}> */ }        
+                <p onClick={this.props.clicked}>I am {this.props.name} and I am {this.props.age} old person</p>
+                <p>{this.props.children}</p>
+                <input
+                    // ref is a keyword that is only applicable to stateful components
+                    // it sets up a reference to this element
+                    // inputElement is our own prop name
+                    ref = {( inp ) => { this.inputElement = inp }}
+                    type = "text" 
+                    onChange = {this.props.changed} 
+                    defaultValue = {this.props.name}/>
+            { /* </div> */ }
+            </Aux>
+        )
+    }
 };
 
 Person.propTypes = {
