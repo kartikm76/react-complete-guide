@@ -1,12 +1,13 @@
 import React from 'react';
 import cssClasses from './Cockpit.css';
+import Aux from '../../hoc/Aux';
 
 const cockpit = (props) => {
     const assignedClasses = [];
-    let buttonClass = '';
+    let buttonClass = cssClasses.Button;
 
     if (props.showPersons) {
-        buttonClass = cssClasses.red;
+        buttonClass = [cssClasses.Button, cssClasses.red].join(' ');
     }
 
     if (props.persons.length <= 2) {
@@ -18,14 +19,15 @@ const cockpit = (props) => {
     }
 
     return (
-        <div className={cssClasses.Cockpit}>
-            <h1>Hi </h1>
-            <p> This is a react app </p>
+        <Aux>
+            { /* this.props is used to access props in a component*/ }
+            { /* props is used to access props in a function*/ }
+            <h4>{props.title} in Cockpit - being passed from index to App to Cockpit </h4>
             <p className={assignedClasses.join(' ')}> This is real </p>
             <button className={buttonClass}
                     onClick={props.clicked}>Toggle Person
             </button>
-        </div>
+        </Aux>
     );
 }
 

@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import cssClasses from './App.css';
 import Cockpit from '../components/Cockpit/Cockpit';
 import Persons from '../components/Persons/Persons';
+import Aux from '../hoc/Aux';
+import WithClass from '../hoc/WithClass';
 
 // cssClasses was set by making changes as:
 // 1. npm run eject
@@ -9,40 +11,38 @@ import Persons from '../components/Persons/Persons';
 // 3. change the css loader config in webpack.config.prod.js
 // For example instead of ".App" in css file, it could be still named as ".Person"
 
-class App extends Component {
+class App extends PureComponent {
   constructor (props) {
     super(props);
-    console.log('App.js insdie constructor', props)
+    console.log('App.js insdie constructor', this.props)
     // this.state can also be initialized here
+    this.state = {
+      persons: [
+        { id: 1, name: "kkm", age: 45 },
+        { id: 2, name: "mkk", age: 36 },
+        { id: 3, name: "kmk", age: 40 }
+      ],
+      showPersons: false,
+      toggleClicked: 0
+    };
   }
 
-  componentWillMount() {
-    console.log('App.js insdie componentWillMount')
+  componentWillMount () {
+    console.log( '[App.js] Inside componentWillMount()' );
   }
 
-  componentDidMount() {
-    console.log('App.js insdie componentDidMount')
+  componentDidMount () {
+    console.log( '[App.js] Inside componentDidMount()' );
+  }
+ 
+  componentWillUpdate ( nextProps, nextState ) {
+    console.log( '[UPDATE App.js] Inside componentWillUpdate', nextProps, nextState );
   }
 
-  state = {
-    persons: [
-      { id: 1, name: "kkm", age: 45 },
-      { id: 2, name: "mkk", age: 36 },
-      { id: 3, name: "kmk", age: 40 }
-    ],
-    showPersons: false
+  componentDidUpdate () {
+    console.log( '[UPDATE App.js] Inside componentDidUpdate' );
   }
   
-  switchNameHandler = (newName) => {
-    console.log("Was clicked");
-    this.setState ({
-      persons: [
-        { name: newName, age: 45 },
-        { name: "mkk", age: 36 },
-        { name: "kmk", age: 29 }
-      ]   
-    })
-  }
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
@@ -68,38 +68,56 @@ class App extends Component {
   }
 
   togglePersonHandler = () => {
-    //const doesShow = this.state.showPersons;
-    //this.setState({showPersons: !doesShow});
-    this.setState({showPersons: !this.state.showPersons});
+    const doesShow = this.state.showPersons;
+    this.setState( (prevState, props) => {
+        return {
+          showPersons: !doesShow,
+          // using this.tate may not lead to correct results
+          // this.state update is an asynchronos operation
+          // so it is possible that some other place of the code 
+          // may have updated it
+          // hence using prevState always gives the correct picture
+          toggleClicked: prevState.toggleClicked + 1
+        }
+      } );
+    //this.setState({showPersons: !this.state.showPersons});
+
   }
 
   render() {
       console.log("App.js inside render");
       let persons = null;
-  
 
       if (this.state.showPersons) {
-        persons = (
-              <Persons 
-                persons = {this.state.persons}
-                clicked = {this.deletePersonHandler}
-                changed = {this.nameChangedHandler}
-              />
-        );
+        persons = 
+          <Persons 
+              persons = {this.state.persons}
+              clicked = {this.deletePersonHandler}
+              changed = {this.nameChangedHandler}
+          />
       }
 
       return (
-        <div className={cssClasses.App}>
+        <Aux>  
+        { /* <div className={cssClasses.App}> */ }
+        { /* this.props is used to access props in a component*/ }
+        { /* props is used to access props in a function*/ }
+          <h4>{this.props.title} in Main App - being passed from index</h4>
+          <button onClick={() => {this.setState ({showPersons: true})}}> Show Person </button>          
           <Cockpit
+            title = {this.props.title}
             showPersons = {this.state.showPersons}
             persons = {this.state.persons}
             clicked = {this.togglePersonHandler}
           />
-          {persons}            
-        </div>
+          {persons}
+          
+          { /*</div> */ }
+          </Aux>
     );
     //return React.createElement('div', null, 'h1', 'Hi, I am a react app');
   }
 }
 
-export default App; // Higher Order Component
+//export default App;
+export default WithClass(App, cssClasses.App); // Higher Order Component

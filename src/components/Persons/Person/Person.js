@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import cssClasses from './Person.css';
+import Aux from '../../../hoc/Aux';
+import WithClass from '../../../hoc/WithClass';
 
 // cssClasses was set by making changes as:
 // 1. npm run eject
@@ -7,20 +10,32 @@ import cssClasses from './Person.css';
 // 3. change the css loader config in webpack.config.prod.js
 // For example instead of ".Person" in css file, it could be still named as ".App"
 
-const person = (props) => {
-    const rnd = Math.random();
-
-    if (rnd > 0.7) {
-        //throw new Error('Something went wrong');
+class Person extends Component {
+    constructor(props) {
+        super(props);
+        console.log('[Person.js] inside constructor', props);
     }
+//const person = (props) => {
+  render () {
 
     return (
-        <div className={cssClasses.Person}>
-            <p onClick={props.clicked}>I am {props.name} and I am {props.age} old person</p>
-            <p>{props.children}</p>
-            <input type="text" onChange={props.changed} defaultValue={props.name}/>
-        </div>
+        <Aux>
+        { /* <div className={cssClasses.Person}> */ }
+            <p onClick={this.props.clicked}>I am {this.props.name} and I am {this.props.age} old person</p>
+            <p>{this.props.children}</p>
+            <input type="text" onChange={this.props.changed} defaultValue={this.props.name}/>
+        { /* </div> */ }
+        </Aux>
     )
+}
 };
 
-export default person;
+Person.propTypes = {
+    click:      PropTypes.func,
+    name:       PropTypes.string,
+    age:        PropTypes.number,
+    changed:    PropTypes.func 
+}
+
+//export default person;
+export default WithClass(Person, cssClasses.Person);
