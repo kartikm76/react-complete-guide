@@ -11,6 +11,8 @@ import WithClass from '../hoc/WithClass';
 // 3. change the css loader config in webpack.config.prod.js
 // For example instead of ".App" in css file, it could be still named as ".Person"
 
+const AuthContext = React.createContext(false);
+
 class App extends PureComponent {
   constructor (props) {
     super(props);
@@ -23,7 +25,8 @@ class App extends PureComponent {
         { id: 3, name: "kmk", age: 40 }
       ],
       showPersons: false,
-      toggleClicked: 0
+      toggleClicked: 0,
+      authenticated: false
     };
   }
 
@@ -84,6 +87,10 @@ class App extends PureComponent {
 
   }
 
+  loginHandler = () => {
+    this.setState ({authenticated: true});    
+  }
+
   render() {
       console.log("App.js inside render");
       let persons = null;
@@ -108,6 +115,7 @@ class App extends PureComponent {
             title = {this.props.title}
             showPersons = {this.state.showPersons}
             persons = {this.state.persons}
+            login = {this.loginHandler}
             clicked = {this.togglePersonHandler}
           />
           {persons}
